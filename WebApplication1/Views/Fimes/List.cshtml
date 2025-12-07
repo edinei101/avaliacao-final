@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CatalogoFilmesTempo.Models.Filme>
+
+@{
+    ViewData["Title"] = "Catálogo de Filmes e Tempo";
+}
+
+<div class="row">
+    <div class="col-md-9">
+        <h1>Catálogo de Filmes</h1>
+    </div>
+
+    <div class="col-md-3">
+        @await Html.PartialAsync("_WeatherPartial")
+    </div>
+</div>
+
+<hr />
+
+<div class="row mb-4">
+    <div class="col-12">
+        <form asp-controller="Filmes" asp-action="Buscar" method="get" class="d-flex">
+            <input name="query" type="text" class="form-control me-2" placeholder="Buscar por título..." />
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <a asp-controller="Filmes" asp-action="List" class="btn btn-secondary ms-2">Limpar</a>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var filme in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                @await Html.PartialAsync("_MovieCardPartial", filme)
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <p class="alert alert-info">Nenhum filme encontrado no catálogo local.</p>
+            <a asp-controller="Filmes" asp-action="Buscar" class="btn btn-success">Buscar Filmes Online (TMDB)</a>
+        </div>
+    }
+</div>

@@ -1,0 +1,22 @@
+﻿@model CatalogoFilmesTempo.Models.Filme
+
+<div class="card h-100 shadow-sm">
+    @{
+        // Usa o CaminhoPoster completo, que começa com /w...
+        var posterUrl = !string.IsNullOrEmpty(Model.CaminhoPoster)
+        ? $"https://image.tmdb.org/t/p/w300{Model.CaminhoPoster}"
+        : "/images/no-poster.png"; // Imagem padrão se o caminho estiver vazio
+    }
+    <img src="@posterUrl" class="card-img-top" alt="Poster de @Model.Titulo">
+
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title">@Model.Titulo</h5>
+        <p class="card-text text-muted">@Model.DataLancamento?.ToString("yyyy") (@Model.DuracaoMinutos min)</p>
+
+        <div class="mt-auto">
+            <a asp-controller="Filmes" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-sm btn-info w-100">
+                Ver Detalhes
+            </a>
+        </div>
+    </div>
+</div>

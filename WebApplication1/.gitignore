@@ -1,0 +1,51 @@
+############################################################
+# Padrão Visual Studio e ASP.NET Core (Arquivos Binários e de Usuário)
+############################################################
+
+# Binários de compilação
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# Pacotes NuGet
+*.nupkg
+/packages/
+
+# Arquivos de log e teste
+*.log
+TestResults/
+Artifacts/
+
+# Arquivos do Visual Studio
+.vs/                    # Pasta de metadados de usuário do VS (CRÍTICO excluir)
+*.user
+*.suo
+*.sln.docstates
+*.vssscc
+*.vspscc
+
+############################################################
+# SEGURANÇA E PERSISTÊNCIA (RF07 e RF11 - CRÍTICO)
+############################################################
+
+# Segredos de API e Arquivos de Configuração de Ambiente (RF07)
+# O .env contém o Bearer Token e API Key.
+.env
+.env.*
+secrets.json            # Redundância para garantir que não suba (caso use User Secrets)
+
+# Bancos de Dados Locais (RF11 - SQLite)
+# Impede que o arquivo CatalogoFilmes.db seja versionado.
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos de Migração (Embora o RF11 diga "sem migrations", é bom ter)
+[Mm]igrations/
+
+############################################################
+# Diversos
+############################################################
+# Cache de ferramentas de terceiros
+node_modules/Aqui"

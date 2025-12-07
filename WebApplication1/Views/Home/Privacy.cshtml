@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Política de Privacidade";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+
+    <p class="lead">
+        Esta página detalha a política de privacidade da sua aplicação **Catálogo Filmes & Tempo**.
+    </p>
+
+    <div class="card card-body bg-light">
+        <h4>Dados Coletados e Uso</h4>
+        <p>
+            Esta aplicação coleta e armazena os seguintes dados diretamente no seu banco de dados local (SQLite):
+        </p>
+        <ul>
+            <li>**Detalhes do Filme:** Título, Sinopse, Data de Lançamento, Duração e Caminho do Poster (obtidos via TMDb).</li>
+            <li>**Dados Geográficos de Referência:** Nome da Cidade, Latitude e Longitude (fornecidos pelo usuário).</li>
+        </ul>
+        <p class="small text-muted">
+            Os dados geográficos são utilizados **apenas** para buscar a previsão do tempo associada ao filme, usando serviços de API de terceiros (como OpenWeatherMap, se configurado). Nenhuma informação pessoal identificável (como nome ou e-mail do usuário) é armazenada.
+        </p>
+
+        <h4>APIs Externas</h4>
+        <p>A aplicação faz requisições externas para:</p>
+        <ul>
+            <li>**The Movie Database (TMDb):** Para buscar e obter detalhes de filmes.</li>
+            <li>**API de Clima:** Para obter dados de previsão do tempo com base nas coordenadas salvas.</li>
+        </ul>
+        <p>Ao usar a aplicação, você concorda que os dados necessários para estas operações sejam transmitidos aos serviços de terceiros, conforme suas respectivas políticas de privacidade.</p>
+    </div>
+
+    <div class="mt-3">
+        <a asp-controller="Filmes" asp-action="Catalogo" class="btn btn-primary">
+            Voltar ao Catálogo
+        </a>
+    </div>
+</div>

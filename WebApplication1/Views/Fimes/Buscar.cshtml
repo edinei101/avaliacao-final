@@ -1,0 +1,103 @@
+﻿@model CatalogoFilmesTempo.Models.Api.TmdbSearchResponse
+@using Microsoft.Extensions.Options 
+@inject IOptions<CatalogoFilmesTempo.Models.Api.TmdbConfiguration> TmdbConfig
+
+@{
+    ViewData["Title"] = "Buscar Filmes no TMDb";
+    var currentQuery = ViewData["CurrentQuery"] as string ?? "";
+    var page = Model?.page ?? 1;
+    var totalPages = Model?.total_pages ?? 1;
+    var baseImageUrl = TmdbConfig.Value.TmdbImageBaseUrl;
+}
+
+<div class="container mt-4">
+    <h2>🔎 Buscar e Importar Filmes</h2>
+    <p class="text-muted">Pesquise por filmes no The Movie Database (TMDb) para adicionar ao seu catálogo.</p>
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="card card-body bg-light mb-4">
+        <form asp-controller="Filmes" asp-action="Buscar" method="post">
+            <div class="input-group">
+                <input type="text" name="query" class="form-control" placeholder="Título do filme..." 
+                       value="@currentQuery" required />
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+            
+            @if (ViewData.ModelState["query"]?.Errors.Any() == true)
+            {
+                <span class="text-danger small">ViewData.ModelState["query"].Errors.First().ErrorMessage</span>
+            }
+        </form>
+    </div>
+
+    @if (Model != null && Model.results != null)
+    {
+        <h3>Resultados para "@currentQuery" (@Model.total_results encontrados)</h3> 
+
+        @if (Model.results.Any())
+        {
+            <div class="row">
+                @foreach (var filmeDetalhe in Model.results)
+                {
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="@(baseImageUrl)@filmeDetalhe.poster_path" 
+                                 class="card-img-top" alt="Poster de @filmeDetalhe.title" 
+                                 style="height: 300px; object-fit: cover;" 
+                                 onerror="this.onerror=null;this.src='/images/placeholder_movie.svg';" />
+
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-truncate">@filmeDetalhe.title</h5>
+                                <p class="card-text text-muted small">
+                                    Lançamento: @(filmeDetalhe.release_date?.ToString("yyyy") ?? "N/D")
+                                </p>
+                                
+                                <a asp-controller="Filmes" asp-action="Importar" asp-route-tmdbId="@filmeDetalhe.id" 
+                                   class="btn btn-success mt-auto">
+                                    <i class="fas fa-plus-circle"></i> Importar (RF03)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <nav aria-label="Paginação de Busca">
+                <ul class="pagination justify-content-center">
+                    
+                    <li class="page-item @(page == 1 ? "disabled" : "")">
+                        <form asp-controller="Filmes" asp-action="Buscar" method="post" class="d-inline">
+                            <input type="hidden" name="query" value="@currentQuery" />
+                            <input type="hidden" name="page" value="@(page - 1)" />
+                            <button type="submit" class="page-link">Anterior</button>
+                        </form>
+                    </li>
+                    
+                    <li class="page-item active">
+                        <span class="page-link">Página page de @totalPages</span> 
+                    </li>
+                    
+                    <li class="page-item @(page >= totalPages ? "disabled" : "")">
+                        <form asp-controller="Filmes" asp-action="Buscar" method="post" class="d-inline">
+                            <input type="hidden" name="query" value="@currentQuery" />
+                            <input type="hidden" name="page" value="@(page + 1)" />
+                            <button type="submit" class="page-link">Próximo</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        }
+        else
+        {
+             <div class="alert alert-warning">
+                Nenhum resultado encontrado para a busca. Tente um termo diferente.
+            </div>
+        }
+    }
+</div>
