@@ -1,83 +1,49 @@
-﻿// Services/TmdbApiService.cs
-
-using CatalogoFilmesTempo.Interfaces;
+﻿using CatalogoFilmesTempo.Interfaces;
 using CatalogoFilmesTempo.Models.Api;
 using Microsoft.Extensions.Options;
-using System.Net.Http.Json;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CatalogoFilmesTempo.Services
 {
-    // Implementa a interface ITmdbApiService para buscar dados no TMDb.
     public class TmdbApiService : ITmdbApiService
     {
         private readonly HttpClient _httpClient;
         private readonly TmdbConfiguration _config;
 
-        // Injeção de Dependência: HttpClient e IOptions<TmdbConfiguration>
-        public TmdbApiService(
-            HttpClient httpClient,
-            IOptions<TmdbConfiguration> config)
+        public TmdbApiService(HttpClient httpClient, IOptions<TmdbConfiguration> configOptions)
         {
             _httpClient = httpClient;
-            // Acessa as configurações (URL e Chave) de forma segura
-            _config = config.Value;
+            _config = configOptions.Value;
         }
 
-        // --- Método Auxiliar ---
-
-        // Constrói a URL completa da API
-        private string GetTmdbUrl(string endpoint, string queryParameters = "")
+        // CORREÇÃO: Implementação completa do SearchMoviesAsync
+        public async Task<TmdbSearchResponse?> SearchMoviesAsync(string query)
         {
-            // O endpoint deve começar com '/' (ex: "/search/movie")
-            return $"{_config.TmdbBaseUrl!.TrimEnd('/')}{endpoint}?api_key={_config.TmdbApiKey}{queryParameters}";
+            var url = $"search/movie?api_key={_config.TmdbApiKey}&query={query}";
+            var response = await _httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<TmdbSearchResponse>(content);
+            }
+            return null;
         }
 
-        // --- ITmdbApiService Implementation ---
-
-        // RF02: Busca filmes por termo.
-        public async Task<TmdbSearchResponse?> SearchMoviesAsync(string query, int page)
+        // Implementação do GetMovieDetailAsync (Deve existir, mas garantindo a assinatura)
+        public async Task<MovieDetail?> GetMovieDetailAsync(int id)
         {
-            var endpoint = "/search/movie";
-            // Codifica a query para ser segura na URL
-            var queryParams = $"&query={System.Net.WebUtility.UrlEncode(query)}&page={page}";
+            var url = $"movie/{id}?api_key={_config.TmdbApiKey}";
+            var response = await _httpClient.GetAsync(url);
 
-            var url = GetTmdbUrl(endpoint, queryParams);
-
-            try
+            if (response.IsSuccessStatusCode)
             {
-                // Faz a chamada GET e desserializa o JSON diretamente para o modelo TmdbSearchResponse
-                var response = await _httpClient.GetFromJsonAsync<TmdbSearchResponse>(url);
-                return response;
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<MovieDetail>(content);
             }
-            catch (HttpRequestException)
-            {
-                // Tratar ou logar erros de HTTP
-                return null;
-            }
-            catch (System.Text.Json.JsonException)
-            {
-                // Tratar erros de desserialização JSON
-                return null;
-            }
-        }
-
-        // RF03: Obtém detalhes de um filme pelo ID.
-        public async Task<MovieDetail?> GetMovieDetailAsync(int tmdbId)
-        {
-            var endpoint = $"/movie/{tmdbId}";
-            var url = GetTmdbUrl(endpoint);
-
-            try
-            {
-                // Faz a chamada GET e desserializa o JSON para o modelo MovieDetail
-                var response = await _httpClient.GetFromJsonAsync<MovieDetail>(url);
-                return response;
-            }
-            catch (HttpRequestException)
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

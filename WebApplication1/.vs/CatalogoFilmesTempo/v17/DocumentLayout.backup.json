@@ -1,62 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\",
+  "WorkspaceRootPath": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\controllers\\filmescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\webapplication1\\views\\filmes\\buscar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\filmes\\buscar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\webapplication1\\controllers\\filmescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:controllers\\filmescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\fimes\\list.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\fimes\\list.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\shared\\_moviecardpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\shared\\_moviecardpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\fimes\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\fimes\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\fimes\\buscar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\fimes\\buscar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\fimes\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\fimes\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\home\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\home\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\fimes\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\fimes\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\fimes\\importar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\fimes\\importar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\views\\fimes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\fimes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\models\\api\\tmdbsearchresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:models\\api\\tmdbsearchresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\feature-edinei-avalicao\\webapplication1\\models\\api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:models\\api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,178 +18,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "List.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\List.cshtml.cs",
-              "RelativeDocumentMoniker": "Views\\Fimes\\List.cshtml.cs",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\List.cshtml.cs",
-              "RelativeToolTip": "Views\\Fimes\\List.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "FilmesController.cs",
+              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Controllers\\FilmesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\FilmesController.cs",
+              "ToolTip": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Controllers\\FilmesController.cs*",
+              "RelativeToolTip": "Controllers\\FilmesController.cs*",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAkwHkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T22:23:57.445Z",
+              "WhenOpened": "2025-12-10T01:24:57.854Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\Fimes\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Edit.cshtml",
-              "RelativeToolTip": "Views\\Fimes\\Edit.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-06T21:05:29.874Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Details.cshtml",
-              "RelativeDocumentMoniker": "Views\\Fimes\\Details.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Details.cshtml",
-              "RelativeToolTip": "Views\\Fimes\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-06T21:05:27.944Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Delete.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Delete.cshtml",
-              "RelativeDocumentMoniker": "Views\\Fimes\\Delete.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Delete.cshtml",
-              "RelativeToolTip": "Views\\Fimes\\Delete.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-06T21:05:25.5Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Buscar.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Buscar.cshtml",
-              "RelativeDocumentMoniker": "Views\\Fimes\\Buscar.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Buscar.cshtml",
-              "RelativeToolTip": "Views\\Fimes\\Buscar.cshtml",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAjwFEAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-06T21:11:01.705Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Error.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Home\\Error.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Error.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Home\\Error.cshtml",
-              "RelativeToolTip": "Views\\Home\\Error.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-06T21:21:18.723Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "_MovieCardPartial.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Shared\\_MovieCardPartial.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_MovieCardPartial.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Shared\\_MovieCardPartial.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_MovieCardPartial.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-06T21:02:54.138Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "FilmesController.cs",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Controllers\\FilmesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\FilmesController.cs",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Controllers\\FilmesController.cs",
-              "RelativeToolTip": "Controllers\\FilmesController.cs",
+              "Title": "Buscar.cshtml",
+              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Views\\Filmes\\Buscar.cshtml",
+              "RelativeDocumentMoniker": "Views\\Filmes\\Buscar.cshtml",
+              "ToolTip": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Views\\Filmes\\Buscar.cshtml*",
+              "RelativeToolTip": "Views\\Filmes\\Buscar.cshtml*",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T20:57:04.35Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Importar.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Importar.cshtml",
-              "RelativeDocumentMoniker": "Views\\Fimes\\Importar.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\Importar.cshtml",
-              "RelativeToolTip": "Views\\Fimes\\Importar.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-06T21:05:31.965Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAswEUAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T21:17:22.101Z",
+              "WhenOpened": "2025-12-10T01:17:15.213Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "List.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\List.cshtml",
-              "RelativeDocumentMoniker": "Views\\Fimes\\List.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Views\\Fimes\\List.cshtml",
-              "RelativeToolTip": "Views\\Fimes\\List.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAAAIwC0AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-06T21:05:34.079Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T21:13:06.695Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "WeatherForecast.cs",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Models\\Api\\WeatherForecast.cs",
-              "RelativeDocumentMoniker": "Models\\Api\\WeatherForecast.cs",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Models\\Api\\WeatherForecast.cs",
-              "RelativeToolTip": "Models\\Api\\WeatherForecast.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T21:10:28.303Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TmdbSearchResponse.cs",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Models\\Api\\TmdbSearchResponse.cs",
-              "RelativeDocumentMoniker": "Models\\Api\\TmdbSearchResponse.cs",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\feature-edinei-avalicao\\WebApplication1\\Models\\Api\\TmdbSearchResponse.cs",
-              "RelativeToolTip": "Models\\Api\\TmdbSearchResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T20:54:45.89Z"
             }
           ]
         }

@@ -1,11 +1,10 @@
-﻿// Models/Api/TmdbConfiguration.cs
-
-namespace CatalogoFilmesTempo.Models.Api
+﻿namespace CatalogoFilmesTempo.Models.Api
 {
     public class TmdbConfiguration
     {
-        public string? TmdbApiKey { get; set; }
-        public string? TmdbBaseUrl { get; set; }
-        public string? TmdbImageBaseUrl { get; set; }
+        public string TmdbImageBaseUrl { get; set; } = string.Empty;
+
+        // CORREÇÃO: Adicionando a chave da API (Bind do appsettings.json)
+        public string TmdbApiKey { get; set; } = string.Empty;
     }
 }

@@ -1,50 +1,41 @@
-﻿@model CatalogoFilmesTempo.Models.Api.WeatherForecast
+﻿@model CatalogoFilmesTempo.Models.Weather.WeatherForecast
 
-@if (Model != null)
-{
-    <div class="card bg-light mt-3 shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <i class="fas fa-cloud-sun"></i> Previsão do Tempo em @Model.CityName
+<div class="row p-3">
+    @if (Model.Weather.Any())
+    {
+        var weatherInfo = Model.Weather.First();
+
+        <div class="col-md-4 text-center">
+            @* Acessando Model.Weather.First().Icon e .Description *@
+            <img src="http://openweathermap.org/img/wn/@(weatherInfo.Icon)@("@2x.png")" alt="@weatherInfo.Description" />
+            <p class="mt-2 text-capitalize">@weatherInfo.Description</p>
         </div>
-        <div class="card-body">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center">
-                    <img src="https://openweathermap.org/img/wn/@(Model.Icon)@("2x").png" alt="@Model.Description" style="width: 80px;">
-                    <h4 class="mt-2">@Model.Description?.ToUpper()</h4>
-                </div>
-                <div class="col-md-6">
-                    <ul class="list-unstyled">
-                        <li>
-                            <i class="fas fa-thermometer-half"></i> Temperatura:
-                            <strong>@Model.Temperature.ToString("F1")°C</strong>
-                        </li>
-                        <li>
-                            <i class="fas fa-temperature-low"></i> Sensação Térmica:
-                            <strong>@Model.FeelsLike.ToString("F1")°C</strong>
-                        </li>
-                        <li>
-                            <i class="fas fa-tint"></i> Umidade:
-                            <strong>@Model.humidity%</strong>
-                        </li>
-                        <li>
-                            <i class="fas fa-wind"></i> Vento:
-                            <strong>@Model.wind_speed.ToString("F1") m/s</strong>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
+        <div class="col-md-8">
+            <h4 class="mb-3">Condições em @Model.CityName</h4>
+            <dl class="row">
+                <dt class="col-sm-6">Temperatura (C):</dt>
+                @* Acessando Model.Main.Temperature *@
+                <dd class="col-sm-6">@(Model.Main.Temperature.ToString("F1")) &deg;C</dd>
+
+                <dt class="col-sm-6">Sensação Térmica (C):</dt>
+                @* Acessando Model.Main.FeelsLike *@
+                <dd class="col-sm-6">@(Model.Main.FeelsLike.ToString("F1")) &deg;C</dd>
+
+                <dt class="col-sm-6">Umidade:</dt>
+                @* Acessando Model.Main.Humidity *@
+                <dd class="col-sm-6">@Model.Main.Humidity %</dd>
+
+                @* Wind Speed não existe no MainData, removido para evitar erro CS1061. Se precisar, adicione WindData ao modelo. *@
+                @* <dt class="col-sm-6">Vento:</dt>
+                <dd class="col-sm-6">@(Model.Wind.Speed.ToString("F1")) m/s</dd> *@
+            </dl>
         </div>
-    </div>
-}
-else if (ViewData["WeatherError"] != null)
-{
-    <div class="alert alert-warning mt-3">
-        <i class="fas fa-exclamation-triangle"></i> Erro ao carregar o clima: @ViewData["WeatherError"]
-    </div>
-}
-else
-{
-    <div class="alert alert-secondary mt-3">
-        <i class="fas fa-info-circle"></i> Não há dados de clima disponíveis (ou a API de clima não foi configurada).
-    </div>
-}
+    }
+    else
+    {
+        <div class="col-12 alert alert-warning">
+            Dados de clima para @Model.CityName não disponíveis.
+        </div>
+    }
+</div>

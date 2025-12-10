@@ -1,17 +1,14 @@
-﻿// Interfaces/ITmdbApiService.cs
-
-using CatalogoFilmesTempo.Models.Api;
+﻿using CatalogoFilmesTempo.Models.Api;
 using System.Threading.Tasks;
 
 namespace CatalogoFilmesTempo.Interfaces
 {
-    // Define os métodos para interagir com a API TMDb.
     public interface ITmdbApiService
     {
-        // Busca filmes por query, com suporte à paginação.
-        Task<TmdbSearchResponse?> SearchMoviesAsync(string query, int page);
+        // RF05: Busca de filmes (usada no /Filmes/Buscar)
+        Task<TmdbSearchResponse?> SearchMoviesAsync(string query);
 
-        // Obtém detalhes completos de um filme pelo ID.
-        Task<MovieDetail?> GetMovieDetailAsync(int tmdbId);
+        // RF05: Detalhes do filme (usada no /Filmes/Details)
+        Task<MovieDetail?> GetMovieDetailAsync(int id);
     }
 }

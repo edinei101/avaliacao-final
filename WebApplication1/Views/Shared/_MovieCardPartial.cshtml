@@ -2,21 +2,35 @@
 
 <div class="card h-100 shadow-sm">
     @{
-        // Usa o CaminhoPoster completo, que começa com /w...
-        var posterUrl = !string.IsNullOrEmpty(Model.CaminhoPoster)
-        ? $"https://image.tmdb.org/t/p/w300{Model.CaminhoPoster}"
-        : "/images/no-poster.png"; // Imagem padrão se o caminho estiver vazio
+        // URL Base da Imagem (A ser configurada via TmdbConfiguration)
+        // Usando um valor de fallback/exemplo.
+        string imageUrlBase = "https://image.tmdb.org/t/p/";
+        string posterSize = "w300";
+        // O caminho do poster está salvo no DB local
+        string fullPosterPath = Model.CaminhoPoster;
     }
-    <img src="@posterUrl" class="card-img-top" alt="Poster de @Model.Titulo">
+
+    @if (!string.IsNullOrEmpty(fullPosterPath))
+    {
+        <img src="@(imageUrlBase)@(posterSize)@fullPosterPath" alt="@Model.Titulo Poster" class="card-img-top" />
+    }
+    else
+    {
+        <div class="p-5 text-center bg-light">Poster não disponível</div>
+    }
 
     <div class="card-body d-flex flex-column">
         <h5 class="card-title">@Model.Titulo</h5>
-        <p class="card-text text-muted">@Model.DataLancamento?.ToString("yyyy") (@Model.DuracaoMinutos min)</p>
 
-        <div class="mt-auto">
-            <a asp-controller="Filmes" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-sm btn-info w-100">
-                Ver Detalhes
-            </a>
-        </div>
+        <p class="card-text text-muted">
+            Lançamento:
+            @* CORREÇÃO: Removendo o operador ? ao acessar a propriedade DataLancamento, 
+               pois ela é DateTime (não anulável) no modelo Filme.cs. *@
+            @(Model.DataLancamento.ToString("yyyy"))
+        </p>
+
+        <a asp-controller="Filmes" asp-action="Details" asp-route-id="@Model.TmdbId" class="btn btn-primary mt-auto">
+            Ver Detalhes (TMDb)
+        </a>
     </div>
 </div>

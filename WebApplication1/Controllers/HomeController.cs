@@ -1,28 +1,30 @@
-﻿// Controllers/HomeController.cs
+﻿using Microsoft.AspNetCore.Mvc;
 using CatalogoFilmesTempo.Models;
-using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace CatalogoFilmesTempo.Controllers
 {
-    // O HomeController é o controlador padrão, frequentemente usado para páginas estáticas (Home, Privacy).
     public class HomeController : Controller
     {
-        // GET: /Home/Index
-        public IActionResult Index()
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
         {
-            // Redirecionamos para a nossa rota principal de catálogo
-            return RedirectToAction("Catalogo", "Filmes");
+            _logger = logger;
         }
 
-        // GET: /Home/Privacy
+        public IActionResult Index()
+        {
+            // Redireciona para a tela de busca de filmes
+            return RedirectToAction("Buscar", "Filmes");
+        }
+
         public IActionResult Privacy()
         {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        // GET: /Home/Error
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
