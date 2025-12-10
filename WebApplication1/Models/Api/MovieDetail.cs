@@ -1,23 +1,48 @@
-﻿// Models/Api/MovieDetail.cs
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace CatalogoFilmesTempo.Models.Api
 {
-    // Modelo que representa os detalhes completos de um filme no TMDb.
+    // Classe aninhada para os gêneros
+    public class Genre
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+    }
+
     public class MovieDetail
     {
-        public int id { get; set; }
-        public string? title { get; set; }
-        public string? overview { get; set; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
 
-        // release_date será convertido em DataLancamento no nosso modelo Filme.
-        public DateTime? release_date { get; set; }
+        [JsonPropertyName("title")]
+        public string Title { get; set; } = string.Empty;
 
-        public int runtime { get; set; } // Duração em minutos
+        [JsonPropertyName("overview")]
+        public string? Overview { get; set; }
 
-        // poster_path é o caminho parcial do poster.
-        public string? poster_path { get; set; }
+        [JsonPropertyName("poster_path")]
+        public string? PosterPath { get; set; }
+
+        // O formato da data pode ser nulo se o filme não foi lançado
+        [JsonPropertyName("release_date")]
+        public DateTime? ReleaseDate { get; set; }
+
+        // O runtime pode ser nulo
+        [JsonPropertyName("runtime")]
+        public int? Runtime { get; set; }
+
+        [JsonPropertyName("vote_average")]
+        public double VoteAverage { get; set; }
+
+        [JsonPropertyName("vote_count")]
+        public int VoteCount { get; set; }
+
+        [JsonPropertyName("genres")]
+        public List<Genre> Genres { get; set; } = new List<Genre>();
     }
 }

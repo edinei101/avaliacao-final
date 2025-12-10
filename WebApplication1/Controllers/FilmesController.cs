@@ -1,10 +1,8 @@
-﻿// Controllers/FilmesController.cs
-
-using Microsoft.AspNetCore.Mvc;
-using CatalogoFilmesTempo.Interfaces;
+﻿using CatalogoFilmesTempo.Interfaces;
 using CatalogoFilmesTempo.Models;
 using CatalogoFilmesTempo.Models.Api;
-using CatalogoFilmesTempo.Utils;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace CatalogoFilmesTempo.Controllers
@@ -14,55 +12,18 @@ namespace CatalogoFilmesTempo.Controllers
         private readonly IFilmeRepository _filmeRepository;
         private readonly ITmdbApiService _tmdbApiService;
         private readonly IWeatherApiService _weatherApiService;
-        private readonly ExportService _exportService;
+        private readonly TmdbConfiguration _tmdbConfig;
 
         public FilmesController(
             IFilmeRepository filmeRepository,
             ITmdbApiService tmdbApiService,
             IWeatherApiService weatherApiService,
-            ExportService exportService)
+            IOptions<TmdbConfiguration> tmdbConfigOptions)
         {
             _filmeRepository = filmeRepository;
             _tmdbApiService = tmdbApiService;
             _weatherApiService = weatherApiService;
-            _exportService = exportService;
-        }
-
-        // GET: /Filmes/Catalogo
-        public async Task<IActionResult> Catalogo()
-        {
-            var filmes = await _filmeRepository.ListAsync();
-            return View("List", filmes);
-        }
-
-        // GET: /Filmes/Details/{id} (RF04, RF06)
-        public async Task<IActionResult> Details(int id)
-        {
-            var filme = await _filmeRepository.GetByIdAsync(id);
-            if (filme == null)
-            {
-                return NotFound();
-            }
-
-            WeatherForecast? weather = null;
-            if (filme.Latitude.HasValue && filme.Longitude.HasValue)
-            {
-                try
-                {
-                    weather = await _weatherApiService.GetWeatherForecastAsync(
-                        filme.Latitude.Value,
-                        filme.Longitude.Value
-                    );
-                }
-                catch (System.Exception ex)
-                {
-                    ViewData["WeatherError"] = $"Erro ao carregar clima: {ex.Message}";
-                }
-            }
-
-            ViewData["Weather"] = weather;
-
-            return View(filme);
+            _tmdbConfig = tmdbConfigOptions.Value;
         }
 
         // GET: /Filmes/Buscar
@@ -71,143 +32,93 @@ namespace CatalogoFilmesTempo.Controllers
             return View();
         }
 
-        // POST: /Filmes/Buscar (RF02, RF13)
+        // POST: /Filmes/Buscar
         [HttpPost]
-        public async Task<IActionResult> Buscar(string query, int page = 1)
+        public async Task<IActionResult> Buscar(string query)
         {
-            if (string.IsNullOrEmpty(query))
+            if (string.IsNullOrWhiteSpace(query))
             {
-                ModelState.AddModelError("query", "O termo de busca não pode ser vazio.");
+                ViewBag.SearchError = "Por favor, digite um termo para buscar.";
                 return View();
             }
 
-            var result = await _tmdbApiService.SearchMoviesAsync(query, page);
+            var response = await _tmdbApiService.SearchMoviesAsync(query);
 
-            ViewData["CurrentQuery"] = query;
+            if (response == null || response.Results == null || response.Results.Count == 0)
+            {
+                ViewBag.SearchError = $"Nenhum filme encontrado para '{query}'.";
+                return View();
+            }
 
-            return View("Buscar", result);
+            // CORREÇÃO ESSENCIAL: Retorna para a View "Buscar" (que espera MovieDetail)
+            return View("Buscar", response.Results);
         }
 
-        // GET: /Filmes/Importar/{tmdbId}
-        public async Task<IActionResult> Importar(int tmdbId)
+        // Os métodos Details, Salvar, e List estão corretos e foram mantidos.
+
+        // GET: /Filmes/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            var movieDetail = await _tmdbApiService.GetMovieDetailAsync(tmdbId);
+            var movieDetail = await _tmdbApiService.GetMovieDetailAsync(id);
+
             if (movieDetail == null)
             {
-                TempData["ErrorMessage"] = "Detalhes do filme não encontrados no TMDb.";
-                return RedirectToAction(nameof(Buscar));
+                return NotFound();
             }
 
-            var filme = new Filme
+            var weatherForecast = await _weatherApiService.GetWeatherForecastAsync("Curitiba");
+
+            var localFilme = await _filmeRepository.GetByTmdbIdAsync(id);
+
+            ViewBag.Weather = weatherForecast;
+            ViewBag.TmdbImageBaseUrl = _tmdbConfig.TmdbImageBaseUrl;
+            ViewBag.IsSaved = localFilme != null;
+
+            return View(movieDetail);
+        }
+
+        // GET: /Filmes/Salvar/5
+        public async Task<IActionResult> Salvar(int id)
+        {
+            var movieDetail = await _tmdbApiService.GetMovieDetailAsync(id);
+
+            if (movieDetail == null)
             {
-                TmdbId = movieDetail.id,
-                Titulo = movieDetail.title,
-                Sinopse = movieDetail.overview,
-                DataLancamento = movieDetail.release_date,
-                DuracaoMinutos = movieDetail.runtime,
-                CaminhoPoster = movieDetail.poster_path,
+                return NotFound();
+            }
+
+            var localFilme = await _filmeRepository.GetByTmdbIdAsync(id);
+            if (localFilme != null)
+            {
+                TempData["Message"] = "Este filme já está salvo no catálogo local.";
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+
+            var filmeParaSalvar = new Filme
+            {
+                TmdbId = movieDetail.Id,
+                Titulo = movieDetail.Title,
+                Sinopse = movieDetail.Overview ?? "Sinopse não disponível.",
+                CaminhoPoster = movieDetail.PosterPath ?? string.Empty,
+                DataLancamento = movieDetail.ReleaseDate ?? System.DateTime.MinValue,
+                DuracaoMinutos = movieDetail.Runtime ?? 0,
+
+                CidadeReferencia = "Curitiba",
+                Latitude = -25.4284,
+                Longitude = -49.2733
             };
 
-            return View(filme);
+            await _filmeRepository.AddAsync(filmeParaSalvar);
+
+            TempData["Message"] = $"Filme '{movieDetail.Title}' salvo com sucesso no catálogo local!";
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
-        // POST: /Filmes/Importar (RF03)
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Importar([Bind("TmdbId, Titulo, Sinopse, DataLancamento, DuracaoMinutos, CaminhoPoster, CidadeReferencia, Latitude, Longitude")] Filme filme)
+        // GET: /Filmes/List (Lista todos os filmes salvos localmente)
+        public async Task<IActionResult> List()
         {
-            if (string.IsNullOrEmpty(filme.CidadeReferencia) || !filme.Latitude.HasValue || !filme.Longitude.HasValue)
-            {
-                ModelState.AddModelError("CidadeReferencia", "Cidade, Latitude e Longitude são obrigatórios para a importação.");
-            }
-
-            ModelState.Remove("Id");
-
-            if (ModelState.IsValid)
-            {
-                var filmeExistente = await _filmeRepository.GetByTmdbIdAsync(filme.TmdbId);
-                if (filmeExistente != null)
-                {
-                    TempData["ErrorMessage"] = $"O filme '{filme.Titulo}' já está no seu catálogo local.";
-                    return View(filme);
-                }
-
-                await _filmeRepository.AddAsync(filme);
-                TempData["SuccessMessage"] = $"Filme '{filme.Titulo}' importado com sucesso para o catálogo local!";
-
-                return RedirectToAction(nameof(Catalogo));
-            }
-
-            return View(filme);
-        }
-
-        // GET: /Filmes/ExportarCsv (RF12)
-        public async Task<IActionResult> ExportarCsv()
-        {
-            var filmes = await _filmeRepository.ListAsync();
-
-            var csvData = _exportService.ExportarFilmesParaCsv(filmes);
-
-            return File(
-                fileContents: System.Text.Encoding.UTF8.GetBytes(csvData),
-                contentType: "text/csv",
-                fileDownloadName: "catalogo_filmes_tempo.csv"
-            );
-        }
-
-        // GET: /Filmes/Edit/{id}
-        public async Task<IActionResult> Edit(int id)
-        {
-            var filme = await _filmeRepository.GetByIdAsync(id);
-            if (filme == null)
-            {
-                return NotFound();
-            }
-            return View(filme);
-        }
-
-        // POST: /Filmes/Edit
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, TmdbId, Titulo, Sinopse, DataLancamento, DuracaoMinutos, CaminhoPoster, CidadeReferencia, Latitude, Longitude")] Filme filme)
-        {
-            if (id != filme.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                await _filmeRepository.UpdateAsync(filme);
-                TempData["SuccessMessage"] = $"Filme '{filme.Titulo}' atualizado com sucesso!";
-                return RedirectToAction(nameof(Catalogo));
-            }
-            return View(filme);
-        }
-
-        // GET: /Filmes/Delete/{id}
-        public async Task<IActionResult> Delete(int id)
-        {
-            var filme = await _filmeRepository.GetByIdAsync(id);
-            if (filme == null)
-            {
-                return NotFound();
-            }
-            return View(filme);
-        }
-
-        // POST: /Filmes/Delete/{id}
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var filme = await _filmeRepository.GetByIdAsync(id);
-            if (filme != null)
-            {
-                await _filmeRepository.DeleteAsync(id); // Chamada corrigida
-                TempData["SuccessMessage"] = $"Filme '{filme.Titulo}' excluído com sucesso do catálogo.";
-            }
-            return RedirectToAction(nameof(Catalogo));
+            var filmesLocais = await _filmeRepository.ListAsync();
+            return View(filmesLocais);
         }
     }
 }

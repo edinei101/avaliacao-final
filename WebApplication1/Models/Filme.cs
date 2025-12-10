@@ -1,50 +1,37 @@
-﻿// Models/Filme.cs
-
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CatalogoFilmesTempo.Models
 {
-    // Modelo que representa um filme no catálogo local (tabela Filmes no SQLite).
     public class Filme
     {
         [Key]
-        // Id: Chave primária auto-incrementável (Primary Key)
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        // ID externo do TMDb para referência (Chave única no AppDbContext)
         [Required]
-        // TmdbId: ID do filme na API externa (usado para garantir unicidade e referência)
         public int TmdbId { get; set; }
 
-        [Required(ErrorMessage = "O Título é obrigatório.")]
+        [Required]
         [StringLength(200)]
-        public string? Titulo { get; set; }
+        public string Titulo { get; set; } = string.Empty;
 
-        [StringLength(2000)]
-        public string? Sinopse { get; set; }
+        // Usado no Repositório e Controller
+        public string Sinopse { get; set; } = string.Empty;
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Data de Lançamento")]
-        // DataLancamento: Usamos DateTime? (anulável) porque nem todos os filmes podem ter uma data definida.
-        public DateTime? DataLancamento { get; set; }
+        // Usado no Repositório e Controller
+        public string CaminhoPoster { get; set; } = string.Empty;
 
-        [Display(Name = "Duração (min)")]
         public int DuracaoMinutos { get; set; }
 
-        // CaminhoPoster: A parte final da URL do poster fornecida pelo TMDb.
-        public string? CaminhoPoster { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DataLancamento { get; set; }
 
-        // --- Campos de Referência Geográfica (RF03/RF06) ---
-
-        [Required(ErrorMessage = "A Cidade de Referência é obrigatória para obter o clima.")]
-        [StringLength(100)]
-        [Display(Name = "Cidade de Referência")]
-        // CidadeReferencia: O nome da cidade que o usuário associa ao filme.
-        public string? CidadeReferencia { get; set; }
-
-        // Latitude e Longitude: Armazenam as coordenadas para buscar a previsão do tempo.
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
+        // RF02: Dados de localização padrão (para o clima)
+        public string CidadeReferencia { get; set; } = "Curitiba";
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

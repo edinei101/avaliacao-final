@@ -1,27 +1,28 @@
-﻿// Data/AppDbContext.cs
-
+﻿using CatalogoFilmesTempo.Models;
 using Microsoft.EntityFrameworkCore;
-using CatalogoFilmesTempo.Models;
 
 namespace CatalogoFilmesTempo.Data
 {
-    // O AppDbContext herda de DbContext e é o coração do Entity Framework Core.
+    // O AppDbContext herda de DbContext, que é a classe base do EF Core.
     public class AppDbContext : DbContext
     {
-        // Construtor necessário para a injeção de dependência no Program.cs
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
-        // DbSet: Representa a coleção de entidades (tabela) no banco de dados.
-        // O nome da tabela no SQLite será 'Filmes'.
-        public DbSet<Filme> Filmes { get; set; } = default!;
+        // Define a coleção de Filmes (tabela 'Filmes') no banco de dados.
+        // O EF Core usará as propriedades de 'Filme.cs' para criar as colunas.
+        public DbSet<Filme> Filmes { get; set; }
 
-        // Você pode usar este método para configurar chaves e índices (opcional para o nosso caso simples)
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     base.OnModelCreating(modelBuilder);
-        // }
+        // Se precisar de alguma configuração de modelo específica (opcional, mas bom ter):
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Exemplo: Garante que o TmdbId é único (opcional, mas recomendado para IDs externos)
+            modelBuilder.Entity<Filme>()
+                .HasIndex(f => f.TmdbId)
+                .IsUnique();
+        }
     }
 }

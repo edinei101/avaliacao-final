@@ -1,0 +1,59 @@
+﻿@using CatalogoFilmesTempo.Models.Api
+@model IEnumerable<MovieDetail>
+@{
+    ViewData["Title"] = "Buscar Filmes";
+}
+
+<div class="container mt-5">
+    <h2><i class="fas fa-search"></i> Catálogo de Filmes e Clima</h2>
+    <p>Busque um filme no The Movie Database (TMDb).</p>
+
+    <form asp-action="Buscar" method="post" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="query" class="form-control form-control-lg" placeholder="Digite o nome do filme..." required />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-lg">Buscar</button>
+            </div>
+        </div>
+    </form>
+
+    @if (ViewBag.SearchError != null)
+    {
+        <div class="alert alert-danger">@ViewBag.SearchError</div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var movie in Model)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        
+                        @* Adicione o poster aqui, usando ViewBag.TmdbImageBaseUrl e movie.PosterPath *@
+                        <img src="@(ViewBag.TmdbImageBaseUrl + movie.PosterPath)" 
+                             class="card-img-top" 
+                             alt="Poster de @movie.Title" 
+                             onerror="this.onerror=null; this.src='/images/no-poster.png';" /> 
+
+                        <div class="card-body">
+                            @{
+                                // CORREÇÃO DA DATA: Usa o operador Elvis (?) para acessar o ano, caso a data não seja nula.
+                                string releaseYear = movie.ReleaseDate.HasValue ? movie.ReleaseDate.Value.Year.ToString() : "N/A";
+                            }
+                            <h5 class="card-title">@movie.Title (@releaseYear)</h5>
+
+                            <a asp-controller="Filmes" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-info w-100 mt-2">
+                                Ver Detalhes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+}

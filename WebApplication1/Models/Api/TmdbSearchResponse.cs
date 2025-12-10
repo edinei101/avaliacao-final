@@ -1,18 +1,22 @@
 ﻿// Models/Api/TmdbSearchResponse.cs
-
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace CatalogoFilmesTempo.Models.Api
 {
-    // Modelo que representa a resposta completa de uma busca de filmes no TMDb.
     public class TmdbSearchResponse
     {
-        public int page { get; set; }
+        [JsonPropertyName("page")]
+        public int Page { get; set; }
 
-        // results contém uma lista simplificada de filmes (MovieResult)
-        public List<MovieDetail>? results { get; set; }
+        // ESSENCIAL: O resultado da busca é uma lista de MovieDetail
+        [JsonPropertyName("results")]
+        public List<MovieDetail> Results { get; set; } = new List<MovieDetail>();
 
-        public int total_pages { get; set; }
-        public int total_results { get; set; }
+        [JsonPropertyName("total_pages")]
+        public int TotalPages { get; set; }
+
+        [JsonPropertyName("total_results")]
+        public int TotalResults { get; set; }
     }
 }
