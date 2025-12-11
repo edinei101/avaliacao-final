@@ -1,43 +1,30 @@
-﻿using CatalogoFilmesTempo.Interfaces;
+﻿// Services/WeatherServiceCacheDecorator.cs
+using CatalogoFilmesTempo.Interfaces;
 using CatalogoFilmesTempo.Models.Weather;
-using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.Threading.Tasks;
+using CatalogoFilmesTempo.Services;
+
+// Adiciona o using para o namespace onde WeatherApiService está definido:
+// (Se WeatherApiService estiver no mesmo namespace 'CatalogoFilmesTempo.Services',
+// você não precisa deste using. Assumimos que está em 'Services'.)
 
 namespace CatalogoFilmesTempo.Services
 {
+    // A classe agora pode encontrar WeatherApiService
     public class WeatherServiceCacheDecorator : IWeatherApiService
     {
-        private readonly IWeatherApiService _decoratedService;
-        private readonly IMemoryCache _cache;
+        // Garante que o serviço real seja do tipo concreto correto
+        private readonly WeatherApiService _realService;
 
-        public WeatherServiceCacheDecorator(IWeatherApiService decoratedService, IMemoryCache cache)
+        public WeatherServiceCacheDecorator(WeatherApiService realService)
         {
-            _decoratedService = decoratedService;
-            _cache = cache;
+            _realService = realService;
         }
 
-        // CORREÇÃO: Implementação correta e completa do membro da interface
-        public async Task<WeatherForecast?> GetWeatherForecastAsync(string cityName)
+        public async Task<WeatherForecast?> GetWeatherForecastAsync(double latitude, double longitude)
         {
-            string cacheKey = $"Weather_{cityName}";
-
-            // 1. Tenta pegar o resultado do cache
-            if (_cache.TryGetValue(cacheKey, out WeatherForecast? result))
-            {
-                return result;
-            }
-
-            // 2. Se não estiver no cache, chama o serviço real
-            result = await _decoratedService.GetWeatherForecastAsync(cityName);
-
-            // 3. Se obteve sucesso, armazena no cache
-            if (result != null)
-            {
-                _cache.Set(cacheKey, result, TimeSpan.FromMinutes(30));
-            }
-
-            return result;
+            // O serviço real é chamado com a nova assinatura
+            return await _realService.GetWeatherForecastAsync(latitude, longitude);
         }
     }
 }

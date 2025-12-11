@@ -1,108 +1,82 @@
-﻿@model CatalogoFilmesTempo.Models.Api.MovieDetail
-@using CatalogoFilmesTempo.Models.Weather
-@using CatalogoFilmesTempo.Models.Api
-
-@* A linha com 'WeatherConfiguration' foi removida. *@
-
+﻿@model MovieWeatherViewModel
 @{
-    ViewData["Title"] = "Detalhes do Filme: " + Model.Title;
-
-    // Obtém a URL base da imagem passada pelo Controller
-    string imageUrlBase = ViewBag.TmdbImageBaseUrl ?? "https://image.tmdb.org/t/p/";
-    string posterSize = "w500";
-
-    // CORREÇÃO: Usando o operador ?. para acessar a propriedade Year em um tipo DateTime?
-    int? releaseYear = Model.ReleaseDate?.Year;
-    string titleWithYear = Model.Title + (releaseYear.HasValue ? $" ({releaseYear.Value})" : "");
+    ViewData["Title"] = Model.Movie.Title;
+    var movie = Model.Movie;
+    var weather = Model.Weather;
 }
 
-<h2 class="mb-4">@titleWithYear</h2>
+<div class="container mt-5">
 
-<hr />
-
-<div class="row">
-    <div class="col-md-4">
-        @* Exibição do Poster (RF05) *@
-        @if (!string.IsNullOrEmpty(Model.PosterPath))
-        {
-            <img src="@(imageUrlBase)@(posterSize)@Model.PosterPath" alt="@Model.Title Poster" class="img-fluid rounded shadow" />
-        }
-        else
-        {
-            <div class="alert alert-secondary text-center">
-                Poster não disponível
-            </div>
-        }
-
-        <div class="mt-3 text-center">
-            @* RF03: Botão Salvar Filme - Usa ViewBag.IsSaved para controle *@
-            @if (ViewBag.IsSaved == true)
-            {
-                <button class="btn btn-success btn-lg w-100" disabled>
-                    <i class="fas fa-check"></i> Salvo no Catálogo Local
-                </button>
-            }
-            else
-            {
-                <a asp-controller="Filmes" asp-action="Salvar" asp-route-id="@Model.Id" class="btn btn-primary btn-lg w-100">
-                    <i class="fas fa-plus"></i> Adicionar ao Catálogo Local
-                </a>
-            }
+    @* --- Cabeçalho e Metadata do Filme --- *@
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1>@movie.Title</h1>
+            @* CORREÇÃO: ReleaseDate é string. Usamos uma função TryParse aqui para o ano, se necessário, ou mostramos a string pura. *@
+            <p class="lead text-muted">Lançamento: @movie.ReleaseDate</p>
+            <hr />
         </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="row">
+        @* Coluna da Imagem *@
+        <div class="col-md-4">
+            @{
+                var imageBaseUrl = "https://image.tmdb.org/t/p/w500";
+                // CORREÇÃO: PosterPath existe no MovieDetail.
+                var posterUrl = !string.IsNullOrEmpty(movie.PosterPath)
+                ? imageBaseUrl + movie.PosterPath
+                : "/images/placeholder.png";
+            }
+            <img src="@posterUrl" class="img-fluid rounded shadow-lg" alt="@movie.Title" />
 
-        @* RF06/RF07: Seção de Clima (Inclui o Partial View) *@
-        @if (ViewBag.Weather is CatalogoFilmesTempo.Models.Weather.WeatherForecast weatherForecast)
-        {
-            <div class="card mb-4 border-info">
-                <div class="card-header bg-info text-white">
-                    <i class="fas fa-cloud-sun"></i> Previsão do Tempo na Região (Simulada)
-                </div>
-                <div class="card-body p-0">
-                    @* O objeto WeatherForecast é passado para o partial view *@
-                    @await Html.PartialAsync("~/Views/Shared/_WeatherPartial.cshtml", weatherForecast)
-                </div>
+            <div class="mt-3">
+                <p><strong>Gêneros:</strong> @string.Join(", ", movie.Genres.Select(g => g.Name))</p>
             </div>
-        }
+        </div>
 
-        @* RF05: Informações Detalhadas *@
-        <h3>Sinopse</h3>
-        <p class="text-justify">@Model.Overview</p>
+        @* Coluna de Detalhes e Clima *@
+        <div class="col-md-8">
 
-        <hr />
+            @* --- Detalhes do Filme --- *@
+            <h3 class="mb-3">Sinopse</h3>
+            @* CORREÇÃO: Overview existe no MovieDetail. *@
+            <p>@movie.Overview</p>
 
-        <dl class="row">
-            <dt class="col-sm-3">Lançamento:</dt>
-            {{-- CORREÇÃO: Convertendo para string com formatação, tratando a nulidade --}}
-            <dd class="col-sm-9">@(Model.ReleaseDate.HasValue? Model.ReleaseDate.Value.ToString("dd/MM/yyyy") : "N/A")</dd>
+            <dl class="row mt-4">
+                <dt class="col-sm-4">ID TMDb</dt>
+                <dd class="col-sm-8">@movie.Id</dd>
 
-            <dt class="col-sm-3">Gêneros:</dt>
-            <dd class="col-sm-9">@(Model.Genres != null ? string.Join(", ", Model.Genres.Select(g => g.Name)) : "N/A")</dd>
+                <dt class="col-sm-4">Data de Lançamento</dt>
+                @* CORREÇÃO: ReleaseDate existe no MovieDetail. *@
+                <dd class="col-sm-8">@movie.ReleaseDate</dd>
 
-            <dt class="col-sm-3">Duração:</dt>
-            {{-- CORREÇÃO: Tratando int? Runtime --}}
-            <dd class="col-sm-9">@(Model.Runtime.HasValue ? $"{Model.Runtime.Value} minutos" : "N/A")</dd>
+                <dt class="col-sm-4">Duração</dt>
+                @* CORREÇÃO: Runtime existe no MovieDetail. *@
+                <dd class="col-sm-8">
+                    @if (movie.Runtime.HasValue && movie.Runtime.Value > 0)
+                    {
+                        <span>@movie.Runtime.Value minutos</span>
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
 
-            <dt class="col-sm-3">Avaliação TMDb:</dt>
-            <dd class="col-sm-9">
-                <span class="badge badge-warning text-dark">
-                    @Model.VoteAverage.ToString("F1") / 10
-                </span>
-                (@Model.VoteCount votos)
-            </dd>
-        </dl>
+                <dt class="col-sm-4">Nota Média</dt>
+                @* CORREÇÃO: VoteAverage existe no MovieDetail. *@
+                <dd class="col-sm-8">@movie.VoteAverage.ToString("F1") / 10 (@movie.VoteCount votos)</dd>
+
+                @* CORREÇÃO: VoteCount existe no MovieDetail. *@
+                @* <dt class="col-sm-4">Total de Votos</dt>
+                <dd class="col-sm-8">@movie.VoteCount</dd> *@
+            </dl>
+
+            @* --- Partial de Clima --- *@
+            <hr />
+            <h3 class="mb-3">Previsão do Tempo para (@weather.City)</h3>
+            @await Html.PartialAsync("_WeatherPartial", weather)
+
+        </div>
     </div>
 </div>
-
-<div class="mt-4">
-    <a asp-action="Buscar" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Voltar à Busca
-    </a>
-</div>
-
-@* Adicione um link para o Font Awesome para que os ícones funcionem *@
-@section Scripts {
-    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
-}

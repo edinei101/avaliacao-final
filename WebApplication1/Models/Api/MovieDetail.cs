@@ -1,19 +1,11 @@
-﻿using System;
+﻿// Models/Api/MovieDetail.cs
+
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace CatalogoFilmesTempo.Models.Api
 {
-    // Classe aninhada para os gêneros
-    public class Genre
-    {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-    }
-
     public class MovieDetail
     {
         [JsonPropertyName("id")]
@@ -22,27 +14,40 @@ namespace CatalogoFilmesTempo.Models.Api
         [JsonPropertyName("title")]
         public string Title { get; set; } = string.Empty;
 
+        // --- PROPRIEDADES NECESSÁRIAS PELO CÓDIGO (Views) ---
+
         [JsonPropertyName("overview")]
-        public string? Overview { get; set; }
+        public string Overview { get; set; } = string.Empty; // Necessário pela View Details
 
         [JsonPropertyName("poster_path")]
-        public string? PosterPath { get; set; }
+        public string PosterPath { get; set; } = string.Empty; // Necessário pelas Views
 
-        // O formato da data pode ser nulo se o filme não foi lançado
         [JsonPropertyName("release_date")]
-        public DateTime? ReleaseDate { get; set; }
+        public string ReleaseDate { get; set; } = string.Empty; // Necessário pelas Views
 
-        // O runtime pode ser nulo
         [JsonPropertyName("runtime")]
-        public int? Runtime { get; set; }
+        public int? Runtime { get; set; } // Necessário pela View Details
 
         [JsonPropertyName("vote_average")]
-        public double VoteAverage { get; set; }
+        public double VoteAverage { get; set; } // Necessário pela View Details
 
         [JsonPropertyName("vote_count")]
-        public int VoteCount { get; set; }
+        public int VoteCount { get; set; } // Necessário pela View Details
+
+        // ----------------------------------------------------
 
         [JsonPropertyName("genres")]
         public List<Genre> Genres { get; set; } = new List<Genre>();
+
+        // Outros campos...
+    }
+
+    public class Genre
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
     }
 }

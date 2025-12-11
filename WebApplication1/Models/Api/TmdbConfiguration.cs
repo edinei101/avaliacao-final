@@ -1,10 +1,24 @@
-﻿namespace CatalogoFilmesTempo.Models.Api
+﻿// Models/Api/TmdbConfiguration.cs
+
+using System.ComponentModel.DataAnnotations;
+
+namespace CatalogoFilmesTempo.Models.Api
 {
+    // A constante continua correta, referenciando a seção "TmdbOptions"
     public class TmdbConfiguration
     {
-        public string TmdbImageBaseUrl { get; set; } = string.Empty;
+        public const string Tmdb = "TmdbOptions";
 
-        // CORREÇÃO: Adicionando a chave da API (Bind do appsettings.json)
-        public string TmdbApiKey { get; set; } = string.Empty;
+        [Required]
+        // Esta é a propriedade que está sendo carregada no serviço
+        public string ApiKey { get; set; } = string.Empty;
+
+        // BaseUrl usado no TmdbApiService
+        [Required]
+        public string BaseUrl { get; set; } = "https://api.themoviedb.org/3/";
+
+        // Mapeia BaseImageUrl do appsettings.json
+        [Required]
+        public string BaseImageUrl { get; set; } = "https://image.tmdb.org/t/p/w500";
     }
 }

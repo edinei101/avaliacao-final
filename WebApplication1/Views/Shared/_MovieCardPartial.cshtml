@@ -1,36 +1,42 @@
 ﻿@model CatalogoFilmesTempo.Models.Filme
+@{
+    // Define a URL base para a imagem, que deve vir da sua configuração
+    var imageBaseUrl = "https://image.tmdb.org/t/p/w500";
+    // CORREÇÃO: Usando CaminhoPoster do modelo Filme
+    var posterUrl = !string.IsNullOrEmpty(Model.CaminhoPoster)
+        ? imageBaseUrl + Model.CaminhoPoster
+        : Model.ImagemUrl; // Fallback para ImagemUrl se CaminhoPoster estiver vazio
+
+    if (string.IsNullOrEmpty(posterUrl))
+    {
+        posterUrl = "/images/placeholder.png";
+    }
+}
 
 <div class="card h-100 shadow-sm">
-    @{
-        // URL Base da Imagem (A ser configurada via TmdbConfiguration)
-        // Usando um valor de fallback/exemplo.
-        string imageUrlBase = "https://image.tmdb.org/t/p/";
-        string posterSize = "w300";
-        // O caminho do poster está salvo no DB local
-        string fullPosterPath = Model.CaminhoPoster;
-    }
-
-    @if (!string.IsNullOrEmpty(fullPosterPath))
-    {
-        <img src="@(imageUrlBase)@(posterSize)@fullPosterPath" alt="@Model.Titulo Poster" class="card-img-top" />
-    }
-    else
-    {
-        <div class="p-5 text-center bg-light">Poster não disponível</div>
-    }
+    <img src="@posterUrl" class="card-img-top" alt="@Model.Titulo" style="height: 300px; object-fit: cover;">
 
     <div class="card-body d-flex flex-column">
         <h5 class="card-title">@Model.Titulo</h5>
 
         <p class="card-text text-muted">
             Lançamento:
-            @* CORREÇÃO: Removendo o operador ? ao acessar a propriedade DataLancamento, 
-               pois ela é DateTime (não anulável) no modelo Filme.cs. *@
-            @(Model.DataLancamento.ToString("yyyy"))
+            @* CORREÇÃO: Trata DataLancamento como DateTime? (anulável) para evitar erros de .HasValue e .Value *@
+            @if (Model.DataLancamento.HasValue)
+            {
+                <span>@Model.DataLancamento.Value.ToString("yyyy")</span>
+            }
+            else
+            {
+                <span>N/A</span>
+            }
         </p>
 
-        <a asp-controller="Filmes" asp-action="Details" asp-route-id="@Model.TmdbId" class="btn btn-primary mt-auto">
-            Ver Detalhes (TMDb)
-        </a>
+        <p class="card-text overflow-hidden" style="max-height: 4.5em;">@Model.Sinopse</p>
+
+        <div class="mt-auto d-flex justify-content-between align-items-center">
+            @* Exemplo de link para detalhes do DB *@
+            <a asp-controller="Filmes" asp-action="List" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary">Ver no Catálogo</a>
+        </div>
     </div>
 </div>
