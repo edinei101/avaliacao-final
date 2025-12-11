@@ -1,102 +1,84 @@
+// Program.cs
+
+using Microsoft.EntityFrameworkCore;
 using CatalogoFilmesTempo.Data;
-using CatalogoFilmesTempo.Interfaces;
-using CatalogoFilmesTempo.Models.Api;
 using CatalogoFilmesTempo.Repositories;
 using CatalogoFilmesTempo.Services;
-using CatalogoFilmesTempo.Utils;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.EntityFrameworkCore.Sqlite; // Garanta que este using exista!
+using CatalogoFilmesTempo.Models.Api;
+using CatalogoFilmesTempo.Interfaces;
+using System;
+using Microsoft.Extensions.DependencyInjection; // Necessário para GetRequiredService
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// 1. Configuração do Banco de Dados (AppDbContext)
+// Usando SQLite, conforme o appsettings.json
 builder.Services.AddDbContext<AppDbContext>(options =>
-    
-    options.UseSqlite(connectionString));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// --- 2. Configurações de Options (RF05) ---
+// 2. Configuração de Opções (TmdbConfiguration)
+// CORREÇÃO CRUCIAL: Mapeia a seção "TmdbOptions" do appsettings.json
 builder.Services.Configure<TmdbConfiguration>(
-    builder.Configuration.GetSection("TmdbConfiguration"));
+    builder.Configuration.GetSection(TmdbConfiguration.Tmdb));
 
-// --- 3. Registro de Repositórios e Serviços (Injeção de Dependência) ---
-
-// Repositório Local (RF01, RF03)
+// 3. Registro de Repositórios e Serviços
+// Repositórios
 builder.Services.AddScoped<IFilmeRepository, FilmeRepository>();
 
-// Utilitário de Exportação (RF08)
-builder.Services.AddScoped<ExportService>();
-
-// Cache
-builder.Services.AddMemoryCache();
-
-// =================================================================
-// 3.1. TMDb Services - Solução Decorator (Para evitar circularidade)
-// =================================================================
-
-// 1. REGISTRA O SERVIÇO BASE CONCRETO (TmdbApiService) com HttpClient
-builder.Services.AddHttpClient<TmdbApiService>(client =>
+// Serviços da API TMDb
+builder.Services.AddHttpClient<ITmdbApiService, TmdbApiService>(client =>
 {
-    // Define a URL base para a API TMDb (v3)
-    client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
+    // Obtém a URL base da configuração
+    var tmdbConfig = builder.Configuration.GetSection(TmdbConfiguration.Tmdb).Get<TmdbConfiguration>();
+    if (tmdbConfig != null && !string.IsNullOrEmpty(tmdbConfig.BaseUrl))
+    {
+        client.BaseAddress = new Uri(tmdbConfig.BaseUrl);
+    }
 });
 
-// 2. REGISTRA O DECORATOR COMO A IMPLEMENTAÇÃO FINAL DA INTERFACE (ITmdbApiService)
-builder.Services.AddScoped<ITmdbApiService, TmdbServiceCacheDecorator>(provider =>
-{
-    // O Decorator agora injeta o serviço base concreto (TmdbApiService)
-    var tmdbApiService = provider.GetRequiredService<TmdbApiService>();
-    var cache = provider.GetRequiredService<IMemoryCache>();
-
-    // O Decorator envolve o serviço real
-    return new TmdbServiceCacheDecorator(tmdbApiService, cache);
-});
-
-
-// =================================================================
-// 3.2. Weather Services - Solução Decorator (Para evitar circularidade)
-// =================================================================
-
-// 1. REGISTRA O SERVIÇO BASE CONCRETO (WeatherApiService) com HttpClient
+// Serviços de Clima (Com Decorator para Cache)
+// Registra o serviço concreto que usa HttpClient
 builder.Services.AddHttpClient<WeatherApiService>(client =>
 {
-    // URL Base para a API de Clima (Exemplo usando OpenWeatherMap)
-    client.BaseAddress = new Uri("https://api.openweathermap.org/");
+    // Exemplo: URL Base da Open-Meteo
+    var weatherConfig = builder.Configuration.GetSection("WeatherApiConfiguration");
+    client.BaseAddress = new Uri(weatherConfig["BaseUrl"] ?? "https://api.open-meteo.com/v1/");
 });
 
-// 2. REGISTRA O DECORATOR COMO A IMPLEMENTAÇÃO FINAL DA INTERFACE (IWeatherApiService)
+// Registra o Decorator (WeatherServiceCacheDecorator) para a interface (IWeatherApiService)
 builder.Services.AddScoped<IWeatherApiService, WeatherServiceCacheDecorator>(provider =>
 {
-    // O Decorator agora injeta o serviço base concreto (WeatherApiService)
-    var weatherApiService = provider.GetRequiredService<WeatherApiService>();
-    var cache = provider.GetRequiredService<IMemoryCache>();
-
-    // O Decorator envolve o serviço real
-    return new WeatherServiceCacheDecorator(weatherApiService, cache);
+    var realService = provider.GetRequiredService<WeatherApiService>();
+    // Cria e retorna o Decorator
+    return new WeatherServiceCacheDecorator(realService);
 });
 
-// --- 4. Configuração MVC Padrão ---
+// 4. Configuração MVC e Serviços Padrão
 builder.Services.AddControllersWithViews();
 
+var app = builder.Build();
 
-var app = builder.Build(); // A compilação deve passar agora!
-
-// --- 5. Configuração do Pipeline HTTP ---
+// 5. Pipeline de Requisições (Middleware)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+// Cria o DB se não existir (Opcional, mas útil para SQLite)
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
+// 6. Mapeamento de Controllers
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Filmes}/{action=Buscar}/{id?}"); // Inicia na tela de busca
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -1,9 +1,22 @@
-﻿using CatalogoFilmesTempo.Interfaces;
-using CatalogoFilmesTempo.Models;
-using CatalogoFilmesTempo.Models.Api;
+﻿// Controllers/FilmesController.cs
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using CatalogoFilmesTempo.Interfaces;
+using CatalogoFilmesTempo.Models.Api;
+using CatalogoFilmesTempo.Models.Weather;
+using CatalogoFilmesTempo.Models;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using CatalogoFilmesTempo.Repositories;
+
+
+
+// O MovieWeatherViewModel deve estar definido (no Models/ ou como abaixo)
+public class MovieWeatherViewModel
+{
+    public MovieDetail Movie { get; set; } = new MovieDetail();
+    public WeatherForecast Weather { get; set; } = new WeatherForecast();
+}
 
 namespace CatalogoFilmesTempo.Controllers
 {
@@ -12,113 +25,67 @@ namespace CatalogoFilmesTempo.Controllers
         private readonly IFilmeRepository _filmeRepository;
         private readonly ITmdbApiService _tmdbApiService;
         private readonly IWeatherApiService _weatherApiService;
-        private readonly TmdbConfiguration _tmdbConfig;
 
-        public FilmesController(
-            IFilmeRepository filmeRepository,
-            ITmdbApiService tmdbApiService,
-            IWeatherApiService weatherApiService,
-            IOptions<TmdbConfiguration> tmdbConfigOptions)
+        public FilmesController(IFilmeRepository filmeRepository, ITmdbApiService tmdbApiService, IWeatherApiService weatherApiService)
         {
             _filmeRepository = filmeRepository;
             _tmdbApiService = tmdbApiService;
             _weatherApiService = weatherApiService;
-            _tmdbConfig = tmdbConfigOptions.Value;
         }
 
-        // GET: /Filmes/Buscar
-        public IActionResult Buscar()
+        public IActionResult Index()
         {
-            return View();
+            return View("Buscar");
         }
 
-        // POST: /Filmes/Buscar
-        [HttpPost]
+        // Action que processa a busca de filmes
+        [HttpGet]
         public async Task<IActionResult> Buscar(string query)
         {
-            if (string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrEmpty(query))
             {
-                ViewBag.SearchError = "Por favor, digite um termo para buscar.";
-                return View();
+                // Retorna uma lista vazia
+                return View("Buscar", new List<TmdbSearchResult>());
             }
 
             var response = await _tmdbApiService.SearchMoviesAsync(query);
 
-            if (response == null || response.Results == null || response.Results.Count == 0)
+            // *** CORREÇÃO: Usando 'is null' para verificar nulidade e .Results (Maiúsculo) ***
+            if (response is null || response.Results is null)
             {
-                ViewBag.SearchError = $"Nenhum filme encontrado para '{query}'.";
-                return View();
+                // Em caso de falha da API, retorna uma lista vazia.
+                return View("Buscar", new List<TmdbSearchResult>());
             }
 
-            // CORREÇÃO ESSENCIAL: Retorna para a View "Buscar" (que espera MovieDetail)
+            // Passa a lista de resultados (response.Results) para a view de busca
             return View("Buscar", response.Results);
         }
 
-        // Os métodos Details, Salvar, e List estão corretos e foram mantidos.
-
-        // GET: /Filmes/Details/5
+        // Action que exibe os detalhes de um filme específico E a previsão do tempo local
         public async Task<IActionResult> Details(int id)
         {
             var movieDetail = await _tmdbApiService.GetMovieDetailAsync(id);
 
-            if (movieDetail == null)
+            // Coordenadas de exemplo para teste
+            double latitude = -10.88;
+            double longitude = -61.94;
+
+            var weatherForecast = await _weatherApiService.GetWeatherForecastAsync(latitude, longitude);
+
+            var viewModel = new MovieWeatherViewModel
             {
-                return NotFound();
-            }
-
-            var weatherForecast = await _weatherApiService.GetWeatherForecastAsync("Curitiba");
-
-            var localFilme = await _filmeRepository.GetByTmdbIdAsync(id);
-
-            ViewBag.Weather = weatherForecast;
-            ViewBag.TmdbImageBaseUrl = _tmdbConfig.TmdbImageBaseUrl;
-            ViewBag.IsSaved = localFilme != null;
-
-            return View(movieDetail);
-        }
-
-        // GET: /Filmes/Salvar/5
-        public async Task<IActionResult> Salvar(int id)
-        {
-            var movieDetail = await _tmdbApiService.GetMovieDetailAsync(id);
-
-            if (movieDetail == null)
-            {
-                return NotFound();
-            }
-
-            var localFilme = await _filmeRepository.GetByTmdbIdAsync(id);
-            if (localFilme != null)
-            {
-                TempData["Message"] = "Este filme já está salvo no catálogo local.";
-                return RedirectToAction(nameof(Details), new { id = id });
-            }
-
-            var filmeParaSalvar = new Filme
-            {
-                TmdbId = movieDetail.Id,
-                Titulo = movieDetail.Title,
-                Sinopse = movieDetail.Overview ?? "Sinopse não disponível.",
-                CaminhoPoster = movieDetail.PosterPath ?? string.Empty,
-                DataLancamento = movieDetail.ReleaseDate ?? System.DateTime.MinValue,
-                DuracaoMinutos = movieDetail.Runtime ?? 0,
-
-                CidadeReferencia = "Curitiba",
-                Latitude = -25.4284,
-                Longitude = -49.2733
+                // Verifica se movieDetail é nulo antes de atribuir
+                Movie = movieDetail ?? new MovieDetail(),
+                Weather = weatherForecast ?? new WeatherForecast()
             };
 
-            await _filmeRepository.AddAsync(filmeParaSalvar);
+            // Se o filme for nulo, redireciona para um erro ou página 404
+            if (movieDetail is null)
+            {
+                return NotFound();
+            }
 
-            TempData["Message"] = $"Filme '{movieDetail.Title}' salvo com sucesso no catálogo local!";
-            return RedirectToAction(nameof(Details), new { id = id });
-        }
-
-        // GET: /Filmes/List (Lista todos os filmes salvos localmente)
-        public async Task<IActionResult> List()
-        {
-            var filmesLocais = await _filmeRepository.ListAsync();
-            return View(filmesLocais);
+            return View(viewModel);
         }
     }
 }

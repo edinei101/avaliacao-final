@@ -1,44 +1,65 @@
-﻿using CatalogoFilmesTempo.Interfaces;
+﻿// Services/WeatherApiService.cs
+
+using CatalogoFilmesTempo.Interfaces;
 using CatalogoFilmesTempo.Models.Weather;
-using Microsoft.Extensions.Options;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
+using System.Text.Json; // 🚨 Adicionado: ESSENCIAL para o desserializador
+using System; // 🚨 Adicionado: Para o bloco try/catch e Console.WriteLine
+using System.Collections.Generic; // 🚨 Adicionado: ESSENCIAL para List<T>
 
 namespace CatalogoFilmesTempo.Services
 {
     public class WeatherApiService : IWeatherApiService
     {
         private readonly HttpClient _httpClient;
-        // Se você está usando OpenMeteo ou WeatherAPI, provavelmente precisa de uma URL base ou API Key aqui.
-        // Vamos supor que a URL base é passada (não configuramos WeatherConfiguration, mas corrigiremos isso).
 
-        // Constructor, apenas usando HttpClient por enquanto.
+        // URL base da API Open-Meteo (não requer chave)
+        private const string BaseUrl = "https://api.open-meteo.com/v1/forecast";
+
         public WeatherApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            // Se você usar IOptions<WeatherConfiguration>, injete aqui.
         }
 
-        // CORREÇÃO: Implementação completa do GetWeatherForecastAsync
-        public async Task<WeatherForecast?> GetWeatherForecastAsync(string cityName)
+        public async Task<WeatherForecast?> GetWeatherForecastAsync(double latitude, double longitude)
         {
-            // IMPORTANTE: Esta URL é apenas um mock/exemplo. 
-            // A implementação real dependeria da API de Clima escolhida (ex: OpenMeteo ou OpenWeatherMap)
-            // Para Curitiba (-25.4284, -49.2733).
-
-            // Simulação de URL real (e.g., OpenWeatherMap)
-            // var url = $"data/2.5/weather?q={cityName}&units=metric&appid={YOUR_WEATHER_API_KEY}";
-
-            // Usaremos um objeto mock/simulado para passar o build por agora:
-            await Task.Delay(1); // Simula delay da API
-
-            return new WeatherForecast
+            try
             {
-                CityName = cityName,
-                Main = new MainData { Temperature = 22.5, FeelsLike = 21.0, Humidity = 70 },
-                Weather = new List<WeatherInfo> { new WeatherInfo { Description = "nublado", Icon = "04d" } }
-            };
+                // URL completa para o clima ATUAL. Usamos :F2 para garantir ponto decimal,
+                // prevenindo erros de API relacionados à cultura (ex: vírgula).
+                string url = $"{BaseUrl}?latitude={latitude:F2}&longitude={longitude:F2}&current=temperature_2m,relative_humidity_2m,weather_code&temperature_unit=celsius&forecast_days=1";
+
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                // 🚨 CORREÇÃO CRÍTICA: Desserializar como LISTA e pegar o primeiro item 🚨
+                var forecastList = JsonSerializer.Deserialize<List<WeatherForecast>>(
+                    content,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
+
+                if (forecastList != null && forecastList.Count > 0)
+                {
+                    var forecast = forecastList[0];
+
+                    // Atribui as coordenadas para exibição
+                    forecast.City = $"Lat: {latitude:F2}, Lon: {longitude:F2}";
+
+                    return forecast;
+                }
+
+                // Se a API retornou 200, mas o conteúdo estava vazio/inválido
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // Em caso de falha de conexão ou erro interno (ex: 4xx, 5xx)
+                Console.WriteLine($"Erro ao buscar previsão do tempo: {ex.Message}");
+                return null;
+            }
         }
     }
 }

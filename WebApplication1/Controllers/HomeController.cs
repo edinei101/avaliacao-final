@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CatalogoFilmesTempo.Models;
 using System.Diagnostics;
+using CatalogoFilmesTempo.Interfaces;
 
 namespace CatalogoFilmesTempo.Controllers
 {

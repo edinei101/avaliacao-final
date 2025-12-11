@@ -1,41 +1,25 @@
-﻿@model CatalogoFilmesTempo.Models.Weather.WeatherForecast
+﻿@* Views/Shared/_WeatherPartial.cshtml *@
+@model CatalogoFilmesTempo.Models.Weather.WeatherForecast
 
-<div class="row p-3">
-    @if (Model.Weather.Any())
-    {
-        var weatherInfo = Model.Weather.First();
+@* Removida a variável 'today' e o método 'GetTodayForecast()'.
+    Usamos as propriedades de conveniência (Temperature, Humidity) ou acessamos Model.Current.
+*@
 
-        <div class="col-md-4 text-center">
-            @* Acessando Model.Weather.First().Icon e .Description *@
-            <img src="http://openweathermap.org/img/wn/@(weatherInfo.Icon)@("@2x.png")" alt="@weatherInfo.Description" />
-            <p class="mt-2 text-capitalize">@weatherInfo.Description</p>
-        </div>
-
-        <div class="col-md-8">
-            <h4 class="mb-3">Condições em @Model.CityName</h4>
-            <dl class="row">
-                <dt class="col-sm-6">Temperatura (C):</dt>
-                @* Acessando Model.Main.Temperature *@
-                <dd class="col-sm-6">@(Model.Main.Temperature.ToString("F1")) &deg;C</dd>
-
-                <dt class="col-sm-6">Sensação Térmica (C):</dt>
-                @* Acessando Model.Main.FeelsLike *@
-                <dd class="col-sm-6">@(Model.Main.FeelsLike.ToString("F1")) &deg;C</dd>
-
-                <dt class="col-sm-6">Umidade:</dt>
-                @* Acessando Model.Main.Humidity *@
-                <dd class="col-sm-6">@Model.Main.Humidity %</dd>
-
-                @* Wind Speed não existe no MainData, removido para evitar erro CS1061. Se precisar, adicione WindData ao modelo. *@
-                @* <dt class="col-sm-6">Vento:</dt>
-                <dd class="col-sm-6">@(Model.Wind.Speed.ToString("F1")) m/s</dd> *@
-            </dl>
-        </div>
-    }
-    else
-    {
-        <div class="col-12 alert alert-warning">
-            Dados de clima para @Model.CityName não disponíveis.
-        </div>
-    }
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="text-info">Clima Atual (@DateTime.Now.ToShortDateString())</h5>
+    </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        @* Usando as novas propriedades de conveniência do WeatherForecast.cs *@
+        <p><strong>Temperatura:</strong> @Model.Temperature.ToString("F1") °C</p>
+        <p><strong>Umidade:</strong> @Model.Humidity%</p>
+    </div>
+    <div class="col-md-6">
+        @* Usando o método utilitário para tradução *@
+        <p><strong>Condição:</strong> @Model.GetWeatherSummary()</p>
+    </div>
+</div>
+
+@* A seção de previsão Max/Min foi removida por não termos os dados no JSON atual da API. *@

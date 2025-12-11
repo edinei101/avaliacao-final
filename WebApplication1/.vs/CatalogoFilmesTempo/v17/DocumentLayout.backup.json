@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\webapplication1\\views\\filmes\\buscar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\filmes\\buscar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\webapplication1\\services\\weatherapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:services\\weatherapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\webapplication1\\controllers\\filmescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:controllers\\filmescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\webapplication1\\views\\shared\\_weatherpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\shared\\_weatherpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\webapplication1\\models\\weather\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:models\\weather\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|c:\\users\\gazet\\desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\webapplication1\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D468D2D9-60CE-4132-9DBA-E9DFB0ADFDDE}|CatalogoFilmesTempo.csproj|solutionrelative:views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-10T22:56:41.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "FilmesController.cs",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Controllers\\FilmesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\FilmesController.cs",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Controllers\\FilmesController.cs*",
-              "RelativeToolTip": "Controllers\\FilmesController.cs*",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAkwHkAAAAJAAAAAAAAAA==",
+              "Title": "_WeatherPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Views\\Shared\\_WeatherPartial.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_WeatherPartial.cshtml",
+              "ToolTip": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Views\\Shared\\_WeatherPartial.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_WeatherPartial.cshtml",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAkwBgAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-10T22:53:00.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Models\\Weather\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "Models\\Weather\\WeatherForecast.cs",
+              "ToolTip": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Models\\Weather\\WeatherForecast.cs",
+              "RelativeToolTip": "Models\\Weather\\WeatherForecast.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAkwDgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-10T01:24:57.854Z",
+              "WhenOpened": "2025-12-10T22:50:34.473Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Buscar.cshtml",
-              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Views\\Filmes\\Buscar.cshtml",
-              "RelativeDocumentMoniker": "Views\\Filmes\\Buscar.cshtml",
-              "ToolTip": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Views\\Filmes\\Buscar.cshtml*",
-              "RelativeToolTip": "Views\\Filmes\\Buscar.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-10T01:17:15.213Z",
+              "Title": "WeatherApiService.cs",
+              "DocumentMoniker": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Services\\WeatherApiService.cs",
+              "RelativeDocumentMoniker": "Services\\WeatherApiService.cs",
+              "ToolTip": "C:\\Users\\gazet\\Desktop\\avali\u00E7\u00E3o-final\\avaliacao-final\\WebApplication1\\Services\\WeatherApiService.cs*",
+              "RelativeToolTip": "Services\\WeatherApiService.cs*",
+              "ViewState": "AgIAACkAAAAAAAAAAAAkwDoAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T22:46:22.995Z",
               "EditorCaption": ""
             }
           ]
